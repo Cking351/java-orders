@@ -1,6 +1,6 @@
-package repositories;
+package com.lambdaschool.javaorder.repositories;
 
-import models.Order;
+import com.lambdaschool.javaorder.models.Order;
 import org.springframework.data.repository.CrudRepository;
 
 public interface OrderRepository extends CrudRepository<Order, Long> {

@@ -1,4 +1,4 @@
-package models;
+package com.lambdaschool.javaorder.models;
 
 import javax.persistence.*;
 import java.util.HashSet;
