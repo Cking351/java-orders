@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "agents")
 public class Agent {
 
     /*  AGENTCODE primary key, not null Long
@@ -15,32 +17,34 @@ public class Agent {
         */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique = true, nullable = false)
+//    @Column(nullable = false)
     private long agentcode;
 
     private String agentname;
 
     private String workingarea;
 
-    private double commision;
+    private double commission;
 
     private String phone;
 
     private String country;
 
+    @OneToMany(mappedBy = "agent",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Set<Customer> customers = new HashSet<>();
+
     public Agent() {
     }
 
-    public Agent(String agentname, String workingarea, double commision, String phone, String country) {
+    public Agent(String agentname, String workingarea, double commission, String phone, String country) {
         this.agentname = agentname;
         this.workingarea = workingarea;
-        this.commision = commision;
+        this.commission = commission;
         this.phone = phone;
         this.country = country;
     }
-
-    @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Customer> customers = new HashSet<>();
 
     public long getAgentcode() {
         return agentcode;
@@ -66,12 +70,12 @@ public class Agent {
         this.workingarea = workingarea;
     }
 
-    public double getCommision() {
-        return commision;
+    public double getCommission() {
+        return commission;
     }
 
-    public void setCommision(double commision) {
-        this.commision = commision;
+    public void setCommission(double commision) {
+        this.commission = commision;
     }
 
     public String getPhone() {
@@ -88,5 +92,13 @@ public class Agent {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public Set<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(Set<Customer> customers) {
+        this.customers = customers;
     }
 }

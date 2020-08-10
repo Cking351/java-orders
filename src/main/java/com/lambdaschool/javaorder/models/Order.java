@@ -1,6 +1,8 @@
 package com.lambdaschool.javaorder.models;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -20,17 +22,26 @@ public class Order {
 
     private double advanceamount;
 
-    private long custcode;
+    @ManyToOne
+    @JoinColumn(name = "custcode", nullable = false)
+    private Customer customer;
 
     private String orderdescription;
+
+    @ManyToMany
+    @JoinTable(name = "orderspayments",
+               joinColumns = @JoinColumn(name = "ordnum"),
+               inverseJoinColumns = @JoinColumn(name = "paymentid"))
+    private Set<Payment> payments = new HashSet<>();
 
     public Order() {
     }
 
-    public Order(double ordamount, double advanceamount, long custcode, String orderdescription) {
+    public Order(long ordnum, double ordamount, double advanceamount, Customer customer, String orderdescription) {
+        this.ordnum = ordnum;
         this.ordamount = ordamount;
         this.advanceamount = advanceamount;
-        this.custcode = custcode;
+        this.customer = customer;
         this.orderdescription = orderdescription;
     }
 
@@ -58,12 +69,12 @@ public class Order {
         this.advanceamount = advanceamount;
     }
 
-    public long getCustcode() {
-        return custcode;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustcode(long custcode) {
-        this.custcode = custcode;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public String getOrderdescription() {
@@ -72,5 +83,13 @@ public class Order {
 
     public void setOrderdescription(String orderdescription) {
         this.orderdescription = orderdescription;
+    }
+
+    public Set<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Set<Payment> payments) {
+        this.payments = payments;
     }
 }

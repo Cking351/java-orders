@@ -26,7 +26,6 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private long custcode;
 
     private String custname;
@@ -45,22 +44,23 @@ public class Customer {
 
     private double paymentamt;
 
-    private double outstandamt;
+    private double outstandingamt;
 
     private String phone;
 
-    private long agentcode;
+    @ManyToOne
+    @JoinColumn(name = "agentcode", nullable = false)
+    private Agent agent;
 
     @OneToMany(mappedBy = "customer",
                cascade = CascadeType.ALL,
                orphanRemoval = true)
     private Set<Order> orders = new HashSet<>();
 
-
     public Customer() {
     }
 
-    public Customer(String custname, String custcity, String workingarea, String custcountry, String grade, double openingamt, double receiveamt, double paymentamt, double outstandamt, String phone, long agentcode) {
+    public Customer(String custname, String custcity, String workingarea, String custcountry, String grade, double openingamt, double receiveamt, double paymentamt, double outstandingamt, String phone, Agent agent) {
         this.custname = custname;
         this.custcity = custcity;
         this.workingarea = workingarea;
@@ -69,9 +69,9 @@ public class Customer {
         this.openingamt = openingamt;
         this.receiveamt = receiveamt;
         this.paymentamt = paymentamt;
-        this.outstandamt = outstandamt;
+        this.outstandingamt = outstandingamt;
         this.phone = phone;
-        this.agentcode = agentcode;
+        this.agent = agent;
     }
 
     public long getCustcode() {
@@ -146,12 +146,12 @@ public class Customer {
         this.paymentamt = paymentamt;
     }
 
-    public double getOutstandamt() {
-        return outstandamt;
+    public double getOutstandingamt() {
+        return outstandingamt;
     }
 
-    public void setOutstandamt(double outstandamt) {
-        this.outstandamt = outstandamt;
+    public void setOutstandingamt(double outstandamt) {
+        this.outstandingamt = outstandamt;
     }
 
     public String getPhone() {
@@ -162,11 +162,19 @@ public class Customer {
         this.phone = phone;
     }
 
-    public long getAgentcode() {
-        return agentcode;
+    public Agent getAgent() {
+        return agent;
     }
 
-    public void setAgentcode(long agentcode) {
-        this.agentcode = agentcode;
+    public void setAgent(Agent agent) {
+        this.agent = agent;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
     }
 }
