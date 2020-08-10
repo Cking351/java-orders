@@ -37,8 +37,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(long ordnum, double ordamount, double advanceamount, Customer customer, String orderdescription) {
-        this.ordnum = ordnum;
+    public Order(double ordamount, double advanceamount, Customer customer, String orderdescription) {
         this.ordamount = ordamount;
         this.advanceamount = advanceamount;
         this.customer = customer;
@@ -91,5 +90,9 @@ public class Order {
 
     public void setPayments(Set<Payment> payments) {
         this.payments = payments;
+    }
+
+    public void addPayments(Payment pay1) {
+        this.payments.add(pay1);
     }
 }
